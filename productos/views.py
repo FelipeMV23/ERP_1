@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from .forms import ProductoForm
 from django.shortcuts import get_object_or_404
+from productos.forms import ProductoForm
 from productos.models import Producto
+
 # Create your views here.
 def agregar_producto(request):
     if request.method == 'POST':

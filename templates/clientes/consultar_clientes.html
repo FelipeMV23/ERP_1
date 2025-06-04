@@ -1,1 +1,36 @@
-<h1>Redireccionado</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Clientes</title>
+</head>
+<body>
+    <h1>Clientes registrados</h1>
+    <table border="1">
+        <tr>
+            <th>Código</th>
+            <th>Nombre Fantasía</th>
+            <th>Razón Social</th>
+            <th>Correo</th>
+            <th>Dirección Despacho</th>
+            <th>Editar datos de cliente</th>
+        </tr>
+        {% for cliente in clientes %}
+        <tr>
+            <td>{{ cliente.cod_cliente }}</td>
+            <td>{{ cliente.nombre_fantasia }}</td>
+            <td>{{ cliente.razon_social }}</td>
+            <td>{{ cliente.correo }}</td>
+            <td>{{ cliente.direccion_despacho }}</td>
+            <td><a href="{% url 'editar_cliente' cliente.cod_cliente %}">Editar</a></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No hay clientes registrados.</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{% url 'crear_cliente' %}">Crear nuevo cliente</a>
+</body>
+</html>

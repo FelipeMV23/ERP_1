@@ -2,6 +2,7 @@ from django.db import models
 from clientes.models import Cliente
 from productos.models import Producto
 
+
 class Pedido(models.Model):
     cod_pedido = models.CharField(max_length=20, unique=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)

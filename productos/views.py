@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from .forms import ProductoForm
+from django.shortcuts import get_object_or_404
 # Create your views here.
 def agregar_producto(request):
     if request.method == 'POST':
@@ -28,3 +29,30 @@ def buscar_productos(request):
         'resultados': resultados,
         'query': query,
     })
+
+
+
+def editar_producto(request, id):
+    producto = get_object_or_404(Producto, id=id)
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, instance=producto)
+        if form.is_valid():
+            form.save()
+            return redirect('buscar_productos')
+    else:
+        form = ProductoForm(instance=producto)
+
+    return render(request, 'productos/editar_producto.html', {'form': form, 'producto': producto})
+
+from django.contrib import messages
+
+def eliminar_producto(request, id):
+    producto = get_object_or_404(Producto, id=id)
+    if request.method == 'POST':
+        nombre = producto.nombre_producto
+        producto.delete()
+        messages.success(request, f'Producto "{nombre}" eliminado exitosamente.')
+    return redirect('buscar_productos')
+
+
+

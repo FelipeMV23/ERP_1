@@ -1,8 +1,24 @@
 <div class="container mt-4">
-    <h2>Crear Producto</h2>
-    <form method="post">
+    <h2 class="mb-4">Crear Producto</h2>
+    <form method="post" class="needs-validation" novalidate>
       {% csrf_token %}
       {{ form.as_p }}
       <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
-  </div>
+</div>
+
+<script>
+(() => {
+  'use strict'
+  const forms = document.querySelectorAll('.needs-validation')
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>

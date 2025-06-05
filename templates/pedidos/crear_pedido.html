@@ -1,0 +1,13 @@
+<h2>Crear Pedido</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <h3>Datos del Pedido</h3>
+    {{ form.as_p }}
+
+    <h3>Producto a Agregar</h3>
+    {{ detalle_form.as_p }}
+
+    <button type="submit">Guardar Pedido</button>
+</form>

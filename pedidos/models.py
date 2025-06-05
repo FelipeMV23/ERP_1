@@ -1,16 +1,23 @@
 from django.db import models
 from clientes.models import Cliente
 from productos.models import Producto
+from decimal import Decimal
+from django.db.models import Sum
 
 
 class Pedido(models.Model):
-    cod_pedido = models.CharField(max_length=20, unique=True)
+    cod_pedido = models.AutoField(primary_key=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     monto_total = models.DecimalField(max_digits=10, decimal_places=2)
-    saldo_pendiente = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    @property
+    def saldo_pendiente(self):
+        total_abonos = self.abonos.aggregate(total=Sum('monto'))['total'] or Decimal('0.00')
+        return self.monto_total - total_abonos
 
     def __str__(self):
         return f"Pedido {self.cod_pedido} - {self.cliente.nombre_fantasia}"
+
 
 class DetallePedido(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name='detalles')

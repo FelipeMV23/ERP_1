@@ -1,4 +1,4 @@
-<<<<<<< Updated upstream
+
 from django.contrib import admin
 from django.urls import path, include
 from productos.views import agregar_productos, consultar_productos, editar_producto, eliminar_producto
@@ -8,14 +8,6 @@ urlpatterns = [
     path('consultar/', consultar_productos, name='consultar_productos'),
     path('editar/<int:id_producto>/', editar_producto, name='editar_productos'),
     path('eliminar/<int:id_producto>/', eliminar_producto, name='eliminar_productos'),
-=======
-from django.urls import path
-from productos.views import agregar_producto, buscar_productos, editar_producto, eliminar_producto
 
-urlpatterns = [
-    path('agregar/', agregar_producto, name='agregar_producto'),
-    path('buscar/', buscar_productos, name='buscar_productos'),
-    path('editar/<int:id>/', editar_producto, name='editar_producto'),
-    path('eliminar/<int:id>/', eliminar_producto, name='eliminar_producto'),
->>>>>>> Stashed changes
+
 ]

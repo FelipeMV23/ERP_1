@@ -20,8 +20,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('clientes/', include('clientes.urls')),
-<<<<<<< Updated upstream
-=======
-    path('pedidos/', include('pedidos.urls')),
->>>>>>> Stashed changes
+    path('productos/', include('productos.urls'))
+    
 ]

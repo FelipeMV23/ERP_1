@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Productos</title>
+</head>
+<body>
+    <h1>Productos registrados</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Material</th>
+            <th>Tamaño</th>
+            <th>Color</th>
+            <th>Stock</th>
+            <th>Precio Unitario</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+        </tr>
+        {% for producto in productos %}
+        <tr>
+            <td>{{ producto.id_producto }}</td>
+            <td>{{ producto.nombre_producto }}</td>
+            <td>{{ producto.get_tipo_material_display }}</td>
+            <td>{{ producto.get_tamaño_display }}</td>
+            <td>{{ producto.get_color_display }}</td>
+            <td>{{ producto.stock }}</td>
+            <td>${{ producto.precio_unitario }}</td>
+            <td>{{ producto.descripcion }}</td>
+            <td>
+                <a href="{% url 'editar_productos' producto.id_producto %}">Editar</a>
+                <!-- Botón de eliminar con formulario -->
+                <form action="{% url 'eliminar_productos' producto.id_producto %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" onclick="return confirm('¿Estás seguro que quieres eliminar este producto?');">
+                        Eliminar
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="9">No hay productos registrados.</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{% url 'agregar_productos' %}">Crear nuevo producto</a>
+</body>
+</html>

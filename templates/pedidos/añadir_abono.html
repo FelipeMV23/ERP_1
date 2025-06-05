@@ -1,0 +1,10 @@
+<h2>Añadir abono para Pedido {{ pedido.cod_pedido }}</h2>
+<p>Cliente: {{ pedido.cliente.razon_social }}</p>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Guardar abono</button>
+</form>
+
+<a href="{% url 'listar_pedidos' %}">Volver a lista de pedidos</a>

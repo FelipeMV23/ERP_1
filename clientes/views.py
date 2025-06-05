@@ -30,3 +30,9 @@ def editar_cliente(request, cod_cliente):
         form = ClienteForm(instance=cliente)
     
     return render(request, 'clientes/editar_clientes.html', {'form': form, 'cliente': cliente})
+
+def eliminar_cliente(request, cod_cliente):
+    cliente = get_object_or_404(Cliente, cod_cliente=cod_cliente)
+    if request.method == 'POST':
+        cliente.delete()
+    return redirect('consultar_clientes')

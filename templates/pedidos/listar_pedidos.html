@@ -1,0 +1,31 @@
+<h1>Lista de Pedidos</h1>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Cliente</th>
+        <th>Monto Total</th>
+        <th>Saldo Pendiente</th>
+        <th>Abonos</th>
+        <th>Acciones</th>
+    </tr>
+    {% for pedido in pedidos %}
+    <tr>
+        <td>{{ pedido.cod_pedido }}</td>
+        <td>{{ pedido.cliente.nombre_fantasia }}</td>
+        <td>${{ pedido.monto_total }}</td>
+        <td>${{ pedido.saldo_pendiente }}</td>
+        <td>
+            <ul>
+            {% for abono in pedido.abonos.all %}
+                <li>${{ abono.monto }} - {{ abono.fecha }}</li>
+            {% empty %}
+                <li>No hay abonos</li>
+            {% endfor %}
+            </ul>
+        </td>
+        <td>
+            <a href="{% url 'añadir_abono' pedido.cod_pedido %}">Abonar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>

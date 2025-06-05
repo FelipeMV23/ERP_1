@@ -22,7 +22,16 @@
             <td>{{ cliente.razon_social }}</td>
             <td>{{ cliente.correo }}</td>
             <td>{{ cliente.direccion_despacho }}</td>
-            <td><a href="{% url 'editar_cliente' cliente.cod_cliente %}">Editar</a></td>
+            <td>
+                <a href="{% url 'editar_cliente' cliente.cod_cliente %}">Editar</a>
+                <!-- Botón de eliminar con formulario -->
+                <form action="{% url 'eliminar_cliente' cliente.cod_cliente %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" onclick="return confirm('¿Estás seguro que quieres eliminar a este cliente?');">
+                        Eliminar
+                    </button>
+                </form>
+            </td>
         </tr>
         {% empty %}
         <tr>

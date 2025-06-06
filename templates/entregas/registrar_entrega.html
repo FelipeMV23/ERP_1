@@ -1,12 +1,13 @@
 {% block content %}
 <div class="container mt-4">
-    <h3>Registrar entrega para: {{ detalle.producto.nombre }}</h3>
-    <p><strong>Solicitado:</strong> {{ detalle.cantidad }}</p>
-    <p><strong>Entregado:</strong> {{ detalle.total_entregado }}</p>
-    <p><strong>Pendiente:</strong> {{ detalle.cantidad_pendiente }}</p>
+    <h3>Registrar entrega para el Pedido: {{ pedido }}</h3>
 
     <form method="post" class="mt-3">
         {% csrf_token %}
+        <div class="mb-3">
+            {{ form.detalle_pedido.label_tag }}
+            {{ form.detalle_pedido }}
+        </div>
         <div class="mb-3">
             {{ form.cantidad_entregada.label_tag }}
             {{ form.cantidad_entregada }}

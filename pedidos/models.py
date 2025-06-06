@@ -38,6 +38,10 @@ class DetallePedido(models.Model):
 
     def __str__(self):
         return f"{self.producto.nombre_producto} x {self.cantidad}"
+    
+    @property
+    def cantidad_entregada_total(self):
+        return self.entregas.aggregate(total=models.Sum('cantidad_entregada'))['total'] or 0
 
 class Abono(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name='abonos')

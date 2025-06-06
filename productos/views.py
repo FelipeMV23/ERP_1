@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from django.db.models import Q
 from .forms import ProductoForm
 from django.shortcuts import get_object_or_404
 from productos.forms import ProductoForm
 from productos.models import Producto
+from django.contrib import messages
 
 # Create your views here.
 def agregar_productos(request):
@@ -33,9 +33,6 @@ def editar_producto(request, id_producto):
         form = ProductoForm(instance=producto)
     
     return render(request, 'productos/editar_productos.html', {'form': form, 'producto': producto})
-
-
-from django.contrib import messages
 
 def eliminar_producto(request, id_producto):
     producto = get_object_or_404(Producto, id_producto=id_producto)

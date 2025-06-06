@@ -3,5 +3,5 @@ from django.urls import path, include
 from entregas.views import registrar_entrega
 
 urlpatterns = [
-    path('registrar/<int:detalle_id>/', registrar_entrega, name='registrar_entrega'),
+    path('entregas/registrar/<int:cod_pedido>/', registrar_entrega, name='registrar_entrega')
 ]

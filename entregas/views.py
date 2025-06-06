@@ -1,26 +1,27 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from .forms import EntregaForm
-from pedidos.models import DetallePedido
+from pedidos.models import Pedido
 
-def registrar_entrega(request, detalle_id):
-    detalle = get_object_or_404(DetallePedido, id=detalle_id)
+def registrar_entrega(request, cod_pedido):
+    pedido = get_object_or_404(Pedido, cod_pedido=cod_pedido)
 
     if request.method == 'POST':
-        form = EntregaForm(request.POST)
+        form = EntregaForm(request.POST, pedido=pedido)
         if form.is_valid():
-            cantidad = form.cleaned_data['cantidad_entregada']
-            if cantidad > detalle.cantidad_pendiente:
+            entrega = form.save(commit=False)
+            detalle = entrega.detalle_pedido  # ya viene del form
+
+            if entrega.cantidad_entregada > detalle.cantidad_pendiente:
                 messages.error(request, f"No puedes entregar más de lo pendiente ({detalle.cantidad_pendiente}).")
             else:
-                form.instance.detalle_pedido = detalle
-                form.save()
+                entrega.save()
                 messages.success(request, "Entrega registrada correctamente.")
                 return redirect('listar_pedidos')
     else:
-        form = EntregaForm()
+        form = EntregaForm(pedido=pedido)
 
     return render(request, 'entregas/registrar_entrega.html', {
-        'detalle': detalle,
+        'pedido': pedido,
         'form': form,
     })

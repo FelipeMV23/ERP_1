@@ -3,6 +3,7 @@ from .forms import PedidoForm, AbonoForm, DetallePedido, DetallePedidoForm, Deta
 from .models import Pedido, Abono
 from django.forms import modelformset_factory
 from collections import defaultdict
+from django.contrib import messages
 
 def crear_pedido(request):
     DetallePedidoFormSet = modelformset_factory(
@@ -17,27 +18,33 @@ def crear_pedido(request):
         detalle_formset = DetallePedidoFormSet(request.POST, queryset=DetallePedido.objects.none())
 
         if pedido_form.is_valid() and detalle_formset.is_valid():
-            # Guarda el pedido primero (para obtener cod_pedido autogenerado)
-            pedido = pedido_form.save()
-
-            # Agrupar productos repetidos en el formset
             productos_agrupados = defaultdict(int)
+            productos_validos = 0
+
             for form in detalle_formset:
-                producto = form.cleaned_data.get('producto')
-                cantidad = form.cleaned_data.get('cantidad')
+                if form.cleaned_data:
+                    producto = form.cleaned_data.get('producto')
+                    cantidad = form.cleaned_data.get('cantidad')
 
-                if producto and cantidad:
-                    productos_agrupados[producto] += cantidad
+                    if producto and cantidad and cantidad > 0:
+                        productos_agrupados[producto] += cantidad
+                        productos_validos += 1
 
-            # Crear un solo DetallePedido por producto con la cantidad total
-            for producto, cantidad_total in productos_agrupados.items():
-                DetallePedido.objects.create(
-                    pedido=pedido,
-                    producto=producto,
-                    cantidad=cantidad_total
-                )
+            if productos_validos == 0:
+                messages.error(request, "Debe agregar al menos un producto con cantidad mayor a 0.")
+            else:
+                pedido = pedido_form.save()
 
-            return redirect('listar_pedidos')
+                for producto, cantidad_total in productos_agrupados.items():
+                    DetallePedido.objects.create(
+                        pedido=pedido,
+                        producto=producto,
+                        cantidad=cantidad_total
+                    )
+
+                return redirect('listar_pedidos')
+        else:
+            messages.error(request, "Formulario inválido. Por favor revise los campos.")
 
     else:
         pedido_form = PedidoForm()
@@ -55,13 +62,24 @@ def añadir_abono(request, cod_pedido):
         form = AbonoForm(request.POST)
         if form.is_valid():
             abono = form.save(commit=False)
-            abono.pedido = pedido  # Asociar el abono al pedido correcto
-            abono.save()
-            return redirect('listar_pedidos')
+            monto = abono.monto
+
+            if monto <= 0:
+                messages.error(request, "El monto del abono debe ser mayor que 0.")
+            elif monto > pedido.saldo_pendiente:
+                messages.error(request, f"El monto del abono (${monto}) excede el saldo pendiente (${pedido.saldo_pendiente}).")
+            else:
+                abono.pedido = pedido
+                abono.save()
+                messages.success(request, "Abono registrado correctamente.")
+                return redirect('listar_pedidos')
+        else:
+            messages.error(request, "Formulario inválido. Verifique los datos ingresados.")
     else:
         form = AbonoForm()
 
     return render(request, 'pedidos/añadir_abono.html', {'form': form, 'pedido': pedido})
+
 
 def listar_pedidos(request):
     pedidos = Pedido.objects.all().order_by('-cod_pedido')

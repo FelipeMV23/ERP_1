@@ -22,7 +22,16 @@
     <div class="card-body">
       <form method="POST" id="pedidoForm" novalidate>
         {% csrf_token %}
-
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+            </div>
+            {% endif %}
+            {% if detalle_formset.non_form_errors %}
+            <div class="alert alert-danger">
+                {{ detalle_formset.non_form_errors }}
+            </div>
+            {% endif %}
         <!-- Cliente -->
         <div class="mb-3">
           <label for="{{ form.cliente.id_for_label }}" class="form-label fw-semibold">Cliente</label>

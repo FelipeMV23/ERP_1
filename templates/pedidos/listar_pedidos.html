@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <title>Lista de Pedidos</title>
 
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
 </head>
@@ -100,45 +97,42 @@
         </div>
     </div>
 
-    <!-- Modal Productos -->
-    <div class="modal fade" id="productosModal{{ pedido.cod_pedido }}" tabindex="-1" aria-labelledby="productosLabel{{ pedido.cod_pedido }}" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="productosLabel{{ pedido.cod_pedido }}">Productos del Pedido {{ pedido.cod_pedido }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    {% if pedido.detalles.all %}
-                        <table class="table table-sm">
-                            <thead>
+<!-- Modal Productos -->
+<div class="modal fade" id="productosModal{{ pedido.cod_pedido }}" tabindex="-1" aria-labelledby="productosLabel{{ pedido.cod_pedido }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productosLabel{{ pedido.cod_pedido }}">Productos del Pedido {{ pedido.cod_pedido }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                {% if pedido.detalles.all %}
+                    <table class="table table-sm">
+                        <thead>
                             <tr>
                                 <th>Producto</th>
                                 <th>Cantidad</th>
+                                <th>Cantidad Entregada</th>
                             </tr>
-                            </thead>
-                            <tbody>
+                        </thead>
+                        <tbody>
                             {% for detalle in pedido.detalles.all %}
                                 <tr>
                                     <td>{{ detalle.producto.nombre_producto }}</td>
                                     <td>{{ detalle.cantidad }}</td>
+                                    <td>{{ detalle.cantidad_entregada_total }}</td>  <!-- Aquí va la suma entregada -->
                                 </tr>
                             {% endfor %}
-                            </tbody>
-                        </table>
-                    {% else %}
-                        <p>Este pedido no tiene productos asociados.</p>
-                    {% endif %}
-                </div>
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>Este pedido no tiene productos asociados.</p>
+                {% endif %}
             </div>
         </div>
     </div>
-    {% endfor %}
 </div>
-
-<!-- Bootstrap Bundle JS (incluye Popper) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+{% endfor %}
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 

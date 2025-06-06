@@ -72,7 +72,7 @@
             <div class="d-flex align-items-center ms-3">
                 {% if user.is_authenticated %}
                     <span class="text-white me-2 small">{{ user.first_name }} {{ user.last_name }}</span>
-                    <a href="{% url 'cerrar_sesion' %}" class="text-white" title="Cerrar sesión">
+                    <a href="#" class="text-white" title="Cerrar sesión">
                         <i class="fas fa-sign-out-alt"></i>
                     </a>
                 {% else %}

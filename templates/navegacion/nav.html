@@ -10,10 +10,10 @@
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Font Awesome (íconos) -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <!-- Tu CSS personalizado -->
+    <!-- CSS personalizado -->
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 </head>
 <body>
@@ -22,7 +22,7 @@
     <div class="container-fluid px-4">
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="#">
-            <img src="{% static 'images/logo sim.png' %}"  alt="Logo Sim" height="30" class="me-2">
+            <img src="{% static 'images/logo sim.png' %}" alt="Logo Sim" height="30" class="me-2">
             <span class="fw-bold">SIM CONVERTIDORA</span>
         </a>
 
@@ -35,51 +35,45 @@
         <div class="collapse navbar-collapse" id="navbarContenido">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
-                {% if user.is_superuser %}
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Crear Usuario</a>
-                </li>
-                {% endif %}
-
                 <!-- Pedidos -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                        Pedidos
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Crear pedidos</a></li>
-                        <li><a class="dropdown-item" href="#">Historial de Solicitudes</a></li>
+                        <li><a class="dropdown-item" href="{% url 'crear_pedido' %}">Crear pedidos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'listar_pedidos' %}">Listado de Pedidos</a></li>
                     </ul>
                 </li>
 
-                <!-- Formularios de Cliente -->
+                <!-- Clientes -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Clientes
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Agregar cliente</a></li>
+                        <li><a class="dropdown-item" href="{% url 'crear_cliente' %}">Agregar cliente</a></li>
+                        <li><a class="dropdown-item" href="{% url 'consultar_clientes' %}">Consultar cliente</a></li>
                     </ul>
                 </li>
 
-                <!-- Producto -->
+                <!-- Productos -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Productos
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Agregar Producto</a></li>
+                        <li><a class="dropdown-item" href="{% url 'agregar_productos' %}">Agregar Producto</a></li>
+                        <li><a class="dropdown-item" href="{% url 'consultar_productos' %}">Consultar Productos</a></li>
                     </ul>
-                </li>
-
-                
+                </li> 
             </ul>
 
             <!-- Usuario -->
             <div class="d-flex align-items-center ms-3">
                 {% if user.is_authenticated %}
                     <span class="text-white me-2 small">{{ user.first_name }} {{ user.last_name }}</span>
-                    <a href="{% url 'cerrar_sesion' %}" class="text-white" title="Cerrar sesión">
+                    <a href="#" class="text-white" title="Cerrar sesión">
                         <i class="fas fa-sign-out-alt"></i>
                     </a>
                 {% else %}
@@ -91,7 +85,7 @@
 </nav>
 
 <!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
 =======
 <html lang="en">

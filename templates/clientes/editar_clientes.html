@@ -10,7 +10,9 @@
   <link rel="stylesheet" href="{% static 'css/crear_cliente.css' %}" />
 </head>
 <body>
-
+    <header>
+        {% include 'navegacion/nav.html' %}
+    </header>
   <div class="container mt-5">
     <h2 class="text-center mb-4">Editar Cliente: {{ cliente.nombre_fantasia }}</h2>
     <div class="border p-4 rounded shadow-sm mx-auto" style="max-width: 600px;">

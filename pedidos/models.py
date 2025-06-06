@@ -14,6 +14,10 @@ class Pedido(models.Model):
     def saldo_pendiente(self):
         total_abonos = self.abonos.aggregate(total=Sum('monto'))['total'] or Decimal('0.00')
         return self.monto_total - total_abonos
+    
+    @property
+    def esta_pagado(self):
+        return self.saldo_pendiente <= 0
 
     def __str__(self):
         return f"Pedido {self.cod_pedido} - {self.cliente.nombre_fantasia}"

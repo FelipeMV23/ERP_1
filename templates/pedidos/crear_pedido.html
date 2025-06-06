@@ -1,13 +1,75 @@
-<h2>Crear Pedido</h2>
+<form method="POST" id="pedidoForm">
+  {% csrf_token %}
+  {{ form.as_p }}
 
-<form method="post">
-    {% csrf_token %}
+  <div id="detalles-container">
+    {{ detalle_formset.management_form }}
+    {% for form in detalle_formset %}
+      <div class="detalle-producto">
+        {{ form.as_p }}
+        <button type="button" class="remove-product-btn">Quitar</button>
+      </div>
+    {% endfor %}
+  </div>
 
-    <h3>Datos del Pedido</h3>
-    {{ form.as_p }}
-
-    <h3>Producto a Agregar</h3>
-    {{ detalle_form.as_p }}
-
-    <button type="submit">Guardar Pedido</button>
+  <button type="button" id="add-product-btn">Añadir producto</button>
+  <button type="submit">Crear Pedido</button>
 </form>
+
+<script>
+  (function() {
+    const addBtn = document.getElementById('add-product-btn');
+    const detallesContainer = document.getElementById('detalles-container');
+    const totalForms = document.getElementById('id_form-TOTAL_FORMS');
+
+    // Función para actualizar los índices de todos los formularios en el formset
+    function updateFormIndices() {
+      const forms = detallesContainer.querySelectorAll('.detalle-producto');
+      forms.forEach((form, index) => {
+        form.querySelectorAll('input, select, textarea').forEach(input => {
+          // Cambiar name e id acorde al índice
+          if (input.name) {
+            input.name = input.name.replace(/form-\d+-/, `form-${index}-`);
+          }
+          if (input.id) {
+            input.id = input.id.replace(/form-\d+-/, `form-${index}-`);
+          }
+        });
+      });
+      // Actualizar el total de formularios
+      totalForms.value = forms.length;
+    }
+
+    // Añadir nuevo formulario
+    addBtn.addEventListener('click', function() {
+      const currentFormCount = parseInt(totalForms.value);
+      const lastForm = detallesContainer.querySelector('.detalle-producto:last-of-type');
+      const newForm = lastForm.cloneNode(true);
+
+      // Limpiar valores
+      newForm.querySelectorAll('input, select, textarea').forEach(input => {
+        if(input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') {
+          input.value = '';
+        } else if(input.tagName === 'SELECT') {
+          input.selectedIndex = 0;
+        }
+      });
+
+      detallesContainer.appendChild(newForm);
+      updateFormIndices();
+    });
+
+    // Delegar evento para quitar formulario
+    detallesContainer.addEventListener('click', function(event) {
+      if(event.target.classList.contains('remove-product-btn')) {
+        const forms = detallesContainer.querySelectorAll('.detalle-producto');
+        if(forms.length > 1) {
+          event.target.closest('.detalle-producto').remove();
+          updateFormIndices();
+        } else {
+          alert('Debe haber al menos un producto en el pedido.');
+        }
+      }
+    });
+  })();
+</script>

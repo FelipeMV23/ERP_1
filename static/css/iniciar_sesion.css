@@ -1,0 +1,74 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Tarjeta de inicio de sesión */
+.login-card {
+    background-color: #8f0000; /* Rojo oscuro corporativo */
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Logo */
+.login-logo {
+    width: 150px;
+    margin-bottom: 1rem;
+}
+
+/* Título */
+.login-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #ffbb33; /* Amarillo corporativo */
+    margin-bottom: 1rem;
+}
+
+/* Botón de inicio de sesión */
+.login-button {
+    background-color: #a80000; /* Rojo corporativo */
+    color: #ffffff;
+    border: none;
+    font-weight: bold;
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #ffbb33; /* Amarillo corporativo para hover */
+    color: #8f0000; /* Rojo oscuro para contraste */
+}
+
+/* Inputs */
+.form-control {
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    border: 1px solid #a80000; /* Borde rojo corporativo */
+    padding: 0.5rem;
+    color: #ffffff;
+    background-color: #850000; /* Fondo input rojo oscuro */
+}
+
+.form-control::placeholder {
+    color: #ffbb33; /* Placeholder amarillo */
+}
+
+.form-control:focus {
+    border-color: #ffbb33; /* Borde amarillo al enfocar */
+    background-color: #a80000; /* Fondo rojo corporativo al enfocar */
+    color: #ffffff;
+    outline: none;
+}

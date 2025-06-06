@@ -1,7 +1,65 @@
-<h2>Editar Cliente: {{ cliente.nombre_fantasia }}</h2>
+{% load widget_tweaks %}
+{% load static %}
 
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Guardar Cambios</button>
-</form>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Cliente: {{ cliente.nombre_fantasia }}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/crear_cliente.css' %}" />
+</head>
+<body>
+
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Editar Cliente: {{ cliente.nombre_fantasia }}</h2>
+    <div class="border p-4 rounded shadow-sm mx-auto" style="max-width: 600px;">
+      <form method="POST">
+        {% csrf_token %}
+
+        <!-- Nombre Fantasía -->
+        <div class="mb-3">
+          <label for="id_nombre_fantasia" class="form-label">Nombre Fantasía</label>
+          {{ form.nombre_fantasia|add_class:"form-control"|attr:"placeholder:Ejemplo: Tienda XYZ" }}
+          {% if form.nombre_fantasia.errors %}
+            <div class="text-danger small">{{ form.nombre_fantasia.errors.0 }}</div>
+          {% endif %}
+        </div>
+
+        <!-- Razón Social -->
+        <div class="mb-3">
+          <label for="id_razon_social" class="form-label">Razón Social</label>
+          {{ form.razon_social|add_class:"form-control"|attr:"placeholder:Ejemplo: XYZ S.A." }}
+          {% if form.razon_social.errors %}
+            <div class="text-danger small">{{ form.razon_social.errors.0 }}</div>
+          {% endif %}
+        </div>
+
+        <!-- Correo -->
+        <div class="mb-3">
+          <label for="id_correo" class="form-label">Correo Electrónico</label>
+          {{ form.correo|add_class:"form-control"|attr:"placeholder:cliente@ejemplo.com" }}
+          {% if form.correo.errors %}
+            <div class="text-danger small">{{ form.correo.errors.0 }}</div>
+          {% endif %}
+        </div>
+
+        <!-- Dirección de despacho -->
+        <div class="mb-3">
+          <label for="id_direccion_despacho" class="form-label">Dirección de Despacho</label>
+          {{ form.direccion_despacho|add_class:"form-control"|attr:"placeholder:Ej. Av. Principal 123, Santiago" }}
+          {% if form.direccion_despacho.errors %}
+            <div class="text-danger small">{{ form.direccion_despacho.errors.0 }}</div>
+          {% endif %}
+        </div>
+
+        <!-- Botón -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-success px-4">Guardar Cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

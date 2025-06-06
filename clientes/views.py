@@ -36,3 +36,4 @@ def eliminar_cliente(request, cod_cliente):
     if request.method == 'POST':
         cliente.delete()
     return redirect('consultar_clientes')
+

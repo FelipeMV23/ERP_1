@@ -1,0 +1,87 @@
+.titulo-seccion {
+    text-align: center;
+    margin: 8px !important;
+    color: #982B1C;
+}
+
+.titulo-input {
+    color: #982B1C;
+    font-size: large !important;
+    font-weight: 500;
+}
+
+#contenedor {
+    background-color: #eee;
+    width: 100%; 
+    max-width: 550px; 
+    border-radius: 13px;
+    padding: 20px;
+    border-color: #982B1C;
+    margin: 0 auto; /* Centra el contenedor */
+}
+
+.errores {
+    max-height: 50px;
+    overflow-y: auto;
+    color: black;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+.formulario-solicitud {
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: #eee!important;
+}
+
+#volver {
+    margin-right: 50px;
+}
+
+.btn.btn-agregar {
+    background-color: #982B1C !important;
+    color: white !important;
+    transition: background-color 0.3s ease;
+}
+
+.btn.btn-agregar:hover {
+    background-color: #ff6f36!important;
+    color: rgb(255, 255, 255) !important;
+}
+
+.agregar2 {
+    background-color: #1c9845 !important;
+    color: white !important;
+    object-position: center;
+    text-align: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.agregar2:hover {
+    background-color: #ff6f36!important;
+    color: rgb(255, 255, 255) !important;
+}
+
+.text-danger {
+    color: red;
+    font-size: 0.875rem; /* Más pequeño que el texto normal */
+    margin-top: 4px;
+}
+
+/* Media Queries para Responsividad */
+@media (max-width: 768px) {
+    #contenedor {
+        padding: 10px; 
+    }
+
+    .formulario-solicitud {
+        margin-left: 10px; 
+        margin-right: 10px;
+    }
+
+    #volver {
+        margin-right: 20px; 
+    }
+}
+

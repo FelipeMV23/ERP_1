@@ -1,0 +1,85 @@
+/* Reset de márgenes y paddings por defecto */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fondo del cuerpo */
+body {
+    background-color: #f8f9fa; /* o el color base de tu contenido */
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo general para navbar */
+.navbar {
+    background-color: #0769e6 !important;
+    padding: 0.5rem 1rem;
+}
+
+/* Elimina márgenes internos entre los items */
+.nav-item {
+    margin-right: 0.8rem;
+}
+
+/* Enlaces del navbar */
+.nav-link {
+    padding: 0.5rem 0.7rem;
+    color: #ffffff !important;
+    font-size: 0.9rem;
+}
+
+.nav-link:hover {
+    color: #ffdd57 !important; /* un amarillo suave para hover */
+}
+
+/* Texto blanco más pequeño */
+.text-white {
+    font-size: 0.8rem;
+}
+
+/* Íconos */
+.nav-link i {
+    font-size: 1rem;
+}
+
+/* Espaciado del usuario autenticado */
+.d-flex.align-items-center {
+    margin-left: 1rem;
+}
+
+/* Logo */
+.navbar-brand img {
+    height: 1.5rem;
+}
+
+/* Botón hamburguesa */
+.navbar-toggler {
+    border: none;
+    background-color: transparent;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+}
+
+.navbar-toggler img {
+    height: 30px;
+    width: auto;
+}
+
+/* Asegura que el fondo del menú colapsado sea azul también */
+.navbar-collapse,
+.navbar-nav,
+.dropdown-menu {
+    background-color: #0769e6 !important;
+}
+
+/* Dropdown items */
+.dropdown-item {
+    color: #ffffff !important;
+    font-size: 0.8rem;
+}
+
+.dropdown-item:hover {
+    background-color: #005ac1 !important; /* un azul más oscuro al hacer hover */
+    color: #ffdd57 !important;
+}

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'pedidos',
     'productos',
     'clientes',
+    'entregas',
     'widget_tweaks'
 ]
 

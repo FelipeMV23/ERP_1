@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
 </head>
 <body>
+
+    <header>
+        {% include 'navegacion/nav.html' %}
+    </header>
+
 <div class="container my-5">
     <h1 class="text-center mb-4">Lista de Pedidos</h1>
 
@@ -49,6 +54,7 @@
                 <td>${{ pedido.monto_total }}</td>
                 <td>${{ pedido.saldo_pendiente }}</td>
                 <td>
+                    <a href="{% url 'registrar_entrega' pedido.cod_pedido %}" class="btn btn-sm btn-outline-success">Registrar entrega</a>
                     <a href="{% url 'añadir_abono' pedido.cod_pedido %}" class="btn btn-success btn-sm mb-1">Abonar</a>
                     <button class="btn btn-primary btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#abonosModal{{ pedido.cod_pedido }}">Ver abonos</button>
                     <button class="btn btn-info btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#productosModal{{ pedido.cod_pedido }}">Ver productos</button>

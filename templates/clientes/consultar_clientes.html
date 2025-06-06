@@ -10,7 +10,11 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
 </head>
 <body>
-    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <header>
+        {% include 'navegacion/nav.html' %}
+    </header>
+    
+    <div class="container py-5 d-flex justify-content-center">
         <div style="width: 90%; max-width: 900px;">
             <h1 class="text-center mb-4">Clientes registrados</h1>
             <table id="tabla-clientes" class="table table-striped table-bordered">

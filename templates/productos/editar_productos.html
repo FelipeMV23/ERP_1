@@ -1,5 +1,9 @@
 <h2>Editar Producto: {{ producto.nombre_producto }}</h2>
 
+    <header>
+        {% include 'navegacion/nav.html' %}
+    </header>
+
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}

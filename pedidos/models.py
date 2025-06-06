@@ -28,16 +28,16 @@ class DetallePedido(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField()
 
+    @property
+    def total_entregado(self):
+        return sum(entrega.cantidad_entregada for entrega in self.entregas.all())
+
+    @property
+    def cantidad_pendiente(self):
+        return max(0, self.cantidad - self.total_entregado)
+
     def __str__(self):
         return f"{self.producto.nombre_producto} x {self.cantidad}"
-
-class Entrega(models.Model):
-    detalle_pedido = models.ForeignKey(DetallePedido, on_delete=models.CASCADE, related_name='entregas')
-    fecha_entrega = models.DateField(auto_now_add=True)
-    cantidad_entregada = models.PositiveIntegerField()
-
-    def __str__(self):
-        return f"{self.cantidad_entregada} entregado de {self.detalle_pedido.producto.nombre_producto}"
 
 class Abono(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name='abonos')
@@ -46,11 +46,3 @@ class Abono(models.Model):
 
     def __str__(self):
         return f"Abono de {self.monto} para {self.pedido.cod_pedido}"
-    
-class Entrega(models.Model):
-    detalle_pedido = models.ForeignKey(DetallePedido, on_delete=models.CASCADE, related_name='entregas')
-    fecha_entrega = models.DateField(auto_now_add=True)
-    cantidad_entregada = models.PositiveIntegerField()
-
-    def __str__(self):
-        return f"{self.cantidad_entregada} entregado de {self.detalle_pedido.producto.nombre_producto}"

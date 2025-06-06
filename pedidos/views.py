@@ -17,9 +17,10 @@ def crear_pedido(request):
         detalle_formset = DetallePedidoFormSet(request.POST, queryset=DetallePedido.objects.none())
 
         if pedido_form.is_valid() and detalle_formset.is_valid():
+            # Guarda el pedido primero (para obtener cod_pedido autogenerado)
             pedido = pedido_form.save()
 
-            # Agrupar productos repetidos
+            # Agrupar productos repetidos en el formset
             productos_agrupados = defaultdict(int)
             for form in detalle_formset:
                 producto = form.cleaned_data.get('producto')
@@ -28,7 +29,7 @@ def crear_pedido(request):
                 if producto and cantidad:
                     productos_agrupados[producto] += cantidad
 
-            # Crear solo un DetallePedido por producto
+            # Crear un solo DetallePedido por producto con la cantidad total
             for producto, cantidad_total in productos_agrupados.items():
                 DetallePedido.objects.create(
                     pedido=pedido,
@@ -37,6 +38,7 @@ def crear_pedido(request):
                 )
 
             return redirect('listar_pedidos')
+
     else:
         pedido_form = PedidoForm()
         detalle_formset = DetallePedidoFormSet(queryset=DetallePedido.objects.none())

@@ -1,6 +1,10 @@
-
-
 {% block content %}
+
+    <header>
+        {% include 'navegacion/nav.html' %}
+    </header>
+
+
 <div class="container mt-4">
     <h2>Eliminar Producto</h2>
     <p>¿Estás seguro de que deseas eliminar <strong>{{ producto.nombre_producto }}</strong>?</p>

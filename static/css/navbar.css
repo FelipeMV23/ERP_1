@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 /* Reset de márgenes y paddings por defecto */
 * {
     margin: 0;
@@ -18,10 +19,17 @@ body {
 }
 
 /* Elimina márgenes internos entre los items */
+=======
+.navbar {
+    background-color: #a80000;
+}
+
+>>>>>>> Stashed changes
 .nav-item {
     margin-right: 0.8rem;
 }
 
+<<<<<<< Updated upstream
 /* Enlaces del navbar */
 .nav-link {
     padding: 0.5rem 0.7rem;
@@ -44,10 +52,31 @@ body {
 }
 
 /* Espaciado del usuario autenticado */
+=======
+.nav-link {
+    padding: 0.5rem 0.7rem;
+    color: #ffffff !important;
+    font-size: 0.9rem; /* Tamaño reducido */
+}
+
+.nav-link:hover {
+    color: #ffbb33 !important;
+}
+
+.text-white {
+    font-size: 0.8rem; /* Tamaño reducido */
+}
+
+.nav-link i {
+    font-size: 1rem; /* Tamaño reducido */
+}
+
+>>>>>>> Stashed changes
 .d-flex.align-items-center {
     margin-left: 1rem;
 }
 
+<<<<<<< Updated upstream
 /* Logo */
 .navbar-brand img {
     height: 1.5rem;
@@ -76,10 +105,45 @@ body {
 /* Dropdown items */
 .dropdown-item {
     color: #ffffff !important;
+=======
+.navbar-brand img {
+    height: 1.5rem; /* Ajustar la altura de la imagen si es necesario */
+}
+
+.navbar-toggler {
+    border: none; 
+    background-color: transparent; 
+    padding: 0.5rem;
+    font-size: 0.75rem; 
+}
+
+.navbar-toggler img {
+    height: 30px; 
+    width: auto; 
+}
+
+.navbar-collapse {
+    background-color: #a80000;
+}
+
+.dropdown-menu {
+    background-color: #850000; 
+    border: none; 
+}
+
+.dropdown-item {
+    color: #ffffff;
+>>>>>>> Stashed changes
     font-size: 0.8rem;
 }
 
 .dropdown-item:hover {
+<<<<<<< Updated upstream
     background-color: #005ac1 !important; /* un azul más oscuro al hacer hover */
     color: #ffdd57 !important;
 }
+=======
+    background-color: #a80000;
+    color: #ffbb33; 
+}
+>>>>>>> Stashed changes

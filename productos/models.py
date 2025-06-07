@@ -29,6 +29,8 @@ class Producto(models.Model):
     descripcion = models.TextField(blank=True)
     stock = models.PositiveIntegerField(default=0)
     precio_unitario = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    coste_producción_unitario = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    precio_venta_unitario = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
 
     def __str__(self):
         return f"{self.nombre_producto} ({self.tamaño}, {self.tipo_material})"

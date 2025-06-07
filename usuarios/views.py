@@ -25,7 +25,7 @@ def iniciar_sesion(request):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)
-                next_url = request.GET.get('next', 'formulario_solicitudes')
+                next_url = request.GET.get('next', 'listar_pedidos')
                 return redirect(next_url)
             else:
                 messages.error(request, 'Credenciales inválidas.', extra_tags='login_error')

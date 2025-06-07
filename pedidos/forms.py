@@ -11,7 +11,9 @@ class DetallePedidoForm(forms.ModelForm):
     class Meta:
         model = DetallePedido
         fields = ['producto', 'cantidad']
-
+        widgets = {
+            'total_producto': forms.TextInput(attrs={'readonly': 'readonly', 'class': 'form-control-plaintext'}),
+        }
 
 class AbonoForm(forms.ModelForm):
     class Meta:
@@ -20,7 +22,7 @@ class AbonoForm(forms.ModelForm):
 
 DetallePedidoFormSet = modelformset_factory(
     DetallePedido,
-    fields=('producto', 'cantidad'),
-    extra=1,  # Cantidad de productos que quieres mostrar inicialmente
-    can_delete=True  # Para permitir borrar detalles si quieres
+    form=DetallePedidoForm,
+    extra=1,
+    can_delete=True
 )

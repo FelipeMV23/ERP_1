@@ -7,7 +7,6 @@
   <meta charset="UTF-8" />
   <title>Crear Pedido</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="{% static 'css/crear_pedido.css' %}" />
 </head>
 <body>
 
@@ -56,32 +55,45 @@
         <!-- Detalles del pedido -->
         <h5 class="mb-3">Productos</h5>
 
-        <div id="detalles-container">
-          {{ detalle_formset.management_form }}
-          {% for form in detalle_formset %}
-            <div class="detalle-producto border rounded p-3 mb-3 bg-light position-relative">
-              <div class="mb-3">
-                <label for="{{ form.producto.id_for_label }}" class="form-label fw-semibold">Producto</label>
-                {{ form.producto|add_class:"form-select" }}
-                {% if form.producto.errors %}
-                  <div class="text-danger small">{{ form.producto.errors }}</div>
-                {% endif %}
-              </div>
+ <div id="detalles-container">
+  {{ detalle_formset.management_form }}
+  {% for form in detalle_formset %}
+    <div class="detalle-producto border rounded p-3 mb-3 bg-light position-relative">
+      <div class="mb-3">
+        <label for="{{ form.producto.id_for_label }}" class="form-label fw-semibold">Producto</label>
 
-              <div class="mb-3">
-                <label for="{{ form.cantidad.id_for_label }}" class="form-label fw-semibold">Cantidad</label>
-                {{ form.cantidad|add_class:"form-control" }}
-                {% if form.cantidad.errors %}
-                  <div class="text-danger small">{{ form.cantidad.errors }}</div>
-                {% endif %}
-              </div>
-
-              <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 remove-product-btn" title="Quitar producto">
-                &times;
-              </button>
-            </div>
+        {# Aquí agrego data-precio en las opciones - esto es un ejemplo ESTÁTICO, reemplázalo con precios reales #}
+        <select name="{{ form.producto.html_name }}" id="{{ form.producto.id_for_label }}" class="form-select">
+          {% for opcion in form.producto.field.queryset %}
+            <option value="{{ opcion.pk }}" data-precio="{{ opcion.precio|default_if_none:'0' }}"
+              {% if opcion.pk == form.producto.value %}selected{% endif %}>
+              {{ opcion }}
+            </option>
           {% endfor %}
-        </div>
+        </select>
+
+        {% if form.producto.errors %}
+          <div class="text-danger small">{{ form.producto.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.cantidad.id_for_label }}" class="form-label fw-semibold">Cantidad</label>
+        {{ form.cantidad|add_class:"form-control" }}
+        {% if form.cantidad.errors %}
+          <div class="text-danger small">{{ form.cantidad.errors }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Aquí mostramos el total producto -->
+      <p>Total producto: $<span class="total_producto_display">0.00</span></p>
+
+      <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 remove-product-btn" title="Quitar producto">
+        &times;
+      </button>
+    </div>
+  {% endfor %}
+</div>
 
         <div class="text-center mb-4">
           <button type="button" id="add-product-btn" class="btn btn-outline-primary">
@@ -102,7 +114,36 @@
   (function() {
     const addBtn = document.getElementById('add-product-btn');
     const detallesContainer = document.getElementById('detalles-container');
-    const totalForms = document.getElementById('id_form-TOTAL_FORMS');
+    const totalForms = document.getElementById('id_detalle_formset-TOTAL_FORMS');
+
+    function actualizarTotalProducto(form) {
+      const selectProducto = form.querySelector('select[name$="producto"]');
+      const cantidadInput = form.querySelector('input[name$="cantidad"]');
+      const totalDisplay = form.querySelector('.total_producto_display');
+
+      if (!selectProducto || !cantidadInput || !totalDisplay) return;
+
+      const precio = parseFloat(selectProducto.selectedOptions[0].dataset.precio || 0);
+      const cantidad = parseInt(cantidadInput.value) || 0;
+      const total = precio * cantidad;
+
+      totalDisplay.textContent = total.toFixed(2);
+    }
+
+    function asignarEventos(form) {
+      const selectProducto = form.querySelector('select[name$="producto"]');
+      const cantidadInput = form.querySelector('input[name$="cantidad"]');
+
+      if (selectProducto) {
+        selectProducto.addEventListener('change', () => actualizarTotalProducto(form));
+      }
+      if (cantidadInput) {
+        cantidadInput.addEventListener('input', () => actualizarTotalProducto(form));
+      }
+
+      // Inicializa el total al cargar
+      actualizarTotalProducto(form);
+    }
 
     function updateFormIndices() {
       const forms = detallesContainer.querySelectorAll('.detalle-producto');
@@ -111,6 +152,7 @@
           if (input.name) input.name = input.name.replace(/form-\d+-/, `form-${index}-`);
           if (input.id) input.id = input.id.replace(/form-\d+-/, `form-${index}-`);
         });
+        asignarEventos(form);
       });
       totalForms.value = forms.length;
     }
@@ -140,6 +182,10 @@
         }
       }
     });
+
+    // Inicializar los eventos al cargar
+    document.querySelectorAll('.detalle-producto').forEach(asignarEventos);
+
   })();
 </script>
 

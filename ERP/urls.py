@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
@@ -11,10 +10,7 @@ urlpatterns = [
     path('clientes/', include('clientes.urls')),
     path('productos/', include('productos.urls')),
     path('pedidos/', include('pedidos.urls')),
+    path('entregas/', include('entregas.urls')),
     path('', include('usuarios.urls')),
     path('', root_redirect),  # ruta vacía redirige a iniciar_sesion
-    path('', include('usuarios.urls')), 
- 
-
 ]
-

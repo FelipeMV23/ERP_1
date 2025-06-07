@@ -5,6 +5,13 @@ from django.forms import modelformset_factory
 from collections import defaultdict
 from django.contrib import messages
 
+#modelformset_factory sirve para poder replicar los detalles del pedido (es decir, el producto y la cantidad) cuantas veces quiera el usuario
+#Si la solicitud del post es correcta, se instancian pedido_form y detalle_formset, ya que el pedido completo está segmentado en distintos models
+#Luego viene una validación que verifica que si se añadió el mismo producto, se sume para no generar ruido en la información
+#La siguiente validación es la que verifica que haya mínimo un producto y mínimo una cantidad mayor a cero
+#Luego se guardan en la base de datos, y se manejan los formularios inválidos
+#Se finaliza con el render
+
 def crear_pedido(request):
     DetallePedidoFormSet = modelformset_factory(
         DetallePedido,
@@ -54,6 +61,8 @@ def crear_pedido(request):
         'form': pedido_form,
         'detalle_formset': detalle_formset
     })
+
+#El abono se valida a partir del cod_pedido, y luego del monto_total
 
 def añadir_abono(request, cod_pedido):
     pedido = get_object_or_404(Pedido, cod_pedido=cod_pedido)

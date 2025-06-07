@@ -8,7 +8,6 @@ def crear_cliente(request):
         if form.is_valid():
             form.save()
             return redirect('consultar_clientes')
-    
     else:
         form = ClienteForm()
     

@@ -55,6 +55,10 @@
                     <a href="{% url 'añadir_abono' pedido.cod_pedido %}" class="btn btn-success btn-sm mb-1">Abonar</a>
                     <button class="btn btn-primary btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#abonosModal{{ pedido.cod_pedido }}">Ver abonos</button>
                     <button class="btn btn-info btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#productosModal{{ pedido.cod_pedido }}">Ver productos</button>
+                    <form action="{% url 'eliminar_pedido' pedido.cod_pedido %}" method="post" class="d-inline" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este pedido?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm mb-1">Eliminar</button>
+                    </form>
                 </td>
             </tr>
         {% endfor %}
@@ -111,8 +115,9 @@
                         <thead>
                             <tr>
                                 <th>Producto</th>
-                                <th>Cantidad</th>
-                                <th>Cantidad Entregada</th>
+                                <th>Cantidad a entregar</th>
+                                <th>Cantidad entregada</th>
+                                <th>Total Producto</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -121,6 +126,7 @@
                                     <td>{{ detalle.producto.nombre_producto }}</td>
                                     <td>{{ detalle.cantidad }}</td>
                                     <td>{{ detalle.cantidad_entregada_total }}</td>  <!-- Aquí va la suma entregada -->
+                                    <td>{{ detalle.total_producto }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>

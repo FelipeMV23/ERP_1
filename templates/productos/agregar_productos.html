@@ -6,19 +6,81 @@
 <head>
   <meta charset="UTF-8">
   <title>Crear Producto</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #eaf3fd, #f0f7ff);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding-top: 2rem;
+    }
+
+    .custom-card {
+      background-color: #ffffff;
+      border-left: 6px solid #0769e6;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+    }
+
+    h2 {
+      color: #0769e6;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .form-control:focus {
+      border-color: #0769e6;
+      box-shadow: 0 0 0 0.2rem rgba(7, 105, 230, 0.25);
+    }
+
+    .btn-primary {
+      background-color: #0769e6;
+      border-color: #0769e6;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .btn-primary:hover {
+      background-color: #045bcc;
+      border-color: #045bcc;
+    }
+
+    .text-danger {
+      font-size: 0.875rem;
+    }
+
+    .form-text {
+      font-size: 0.85rem;
+      color: #6c757d;
+    }
+
+    footer {
+      margin-top: 4rem;
+      text-align: center;
+      color: #9e9e9e;
+    }
+  </style>
 </head>
 <body>
+
   <header>
     {% include 'navegacion/nav.html' %}
   </header>
 
-  <div class="container mt-5">
-    <h2 class="text-center mb-4">Crear Producto</h2>
-    <div class="border p-4 rounded shadow-sm mx-auto" style="max-width: 600px;">
-      <form method="POST">
+  <div class="container mt-4">
+    <div class="mx-auto custom-card" style="max-width: 600px;">
+      <h2 class="text-center">Crear Producto</h2>
+
+      <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        
+
         {% for field in form %}
           <div class="mb-3">
             <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
@@ -27,16 +89,20 @@
               <div class="form-text">{{ field.help_text }}</div>
             {% endif %}
             {% if field.errors %}
-              <div class="text-danger small">{{ field.errors.0 }}</div>
+              <div class="text-danger">{{ field.errors.0 }}</div>
             {% endif %}
           </div>
         {% endfor %}
 
-        <div class="text-center">
-          <button type="submit" class="btn btn-success px-4">Guardar Producto</button>
-        </div>
+        <button type="submit" class="btn btn-primary w-100">Guardar Producto</button>
       </form>
     </div>
   </div>
+
+  <footer class="mt-5">
+    <small>© {{ now|date:"Y" }} SIM CONVERTIDORA</small>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

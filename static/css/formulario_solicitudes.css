@@ -1,11 +1,11 @@
 .titulo-seccion {
     text-align: center;
     margin: 8px !important;
-    color: #982B1C;
+    color: #0769e6; /* Azul corporativo */
 }
 
 .titulo-input {
-    color: #982B1C;
+    color: #0769e6;
     font-size: large !important;
     font-weight: 500;
 }
@@ -16,7 +16,7 @@
     max-width: 550px; 
     border-radius: 13px;
     padding: 20px;
-    border-color: #982B1C;
+    border-color: #0769e6; /* Azul corporativo */
     margin: 0 auto; /* Centra el contenedor */
 }
 
@@ -31,7 +31,7 @@
 .formulario-solicitud {
     margin-left: 20px;
     margin-right: 20px;
-    background-color: #eee!important;
+    background-color: #eee !important;
 }
 
 #volver {
@@ -39,18 +39,18 @@
 }
 
 .btn.btn-agregar {
-    background-color: #982B1C !important;
+    background-color: #0769e6 !important; /* Azul corporativo */
     color: white !important;
     transition: background-color 0.3s ease;
 }
 
 .btn.btn-agregar:hover {
-    background-color: #ff6f36!important;
-    color: rgb(255, 255, 255) !important;
+    background-color: #ffdd57 !important; /* Amarillo corporativo */
+    color: #0769e6 !important;
 }
 
 .agregar2 {
-    background-color: #1c9845 !important;
+    background-color: #045bb2 !important; /* Azul oscuro */
     color: white !important;
     object-position: center;
     text-align: center;
@@ -59,13 +59,13 @@
 }
 
 .agregar2:hover {
-    background-color: #ff6f36!important;
-    color: rgb(255, 255, 255) !important;
+    background-color: #ffdd57 !important; /* Amarillo corporativo */
+    color: #0769e6 !important;
 }
 
 .text-danger {
     color: red;
-    font-size: 0.875rem; /* Más pequeño que el texto normal */
+    font-size: 0.875rem;
     margin-top: 4px;
 }
 
@@ -84,4 +84,3 @@
         margin-right: 20px; 
     }
 }
-

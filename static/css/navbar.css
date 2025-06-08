@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 /* Reset de márgenes y paddings por defecto */
 * {
     margin: 0;
@@ -14,22 +13,15 @@ body {
 
 /* Estilo general para navbar */
 .navbar {
-    background-color: #0769e6 !important;
+    background-color: #0769e6 !important; /* puedes cambiar a #a80000 si prefieres rojo */
     padding: 0.5rem 1rem;
 }
 
 /* Elimina márgenes internos entre los items */
-=======
-.navbar {
-    background-color: #a80000;
-}
-
->>>>>>> Stashed changes
 .nav-item {
     margin-right: 0.8rem;
 }
 
-<<<<<<< Updated upstream
 /* Enlaces del navbar */
 .nav-link {
     padding: 0.5rem 0.7rem;
@@ -37,8 +29,9 @@ body {
     font-size: 0.9rem;
 }
 
+/* Hover para enlaces normales */
 .nav-link:hover {
-    color: #ffdd57 !important; /* un amarillo suave para hover */
+    color: #ffdd57 !important; /* amarillo suave */
 }
 
 /* Texto blanco más pequeño */
@@ -52,31 +45,10 @@ body {
 }
 
 /* Espaciado del usuario autenticado */
-=======
-.nav-link {
-    padding: 0.5rem 0.7rem;
-    color: #ffffff !important;
-    font-size: 0.9rem; /* Tamaño reducido */
-}
-
-.nav-link:hover {
-    color: #ffbb33 !important;
-}
-
-.text-white {
-    font-size: 0.8rem; /* Tamaño reducido */
-}
-
-.nav-link i {
-    font-size: 1rem; /* Tamaño reducido */
-}
-
->>>>>>> Stashed changes
 .d-flex.align-items-center {
     margin-left: 1rem;
 }
 
-<<<<<<< Updated upstream
 /* Logo */
 .navbar-brand img {
     height: 1.5rem;
@@ -95,55 +67,24 @@ body {
     width: auto;
 }
 
-/* Asegura que el fondo del menú colapsado sea azul también */
-.navbar-collapse,
-.navbar-nav,
+/* Fondo del menú colapsado */
+.navbar-collapse {
+    background-color: #0769e6 !important;
+}
+
 .dropdown-menu {
     background-color: #0769e6 !important;
+    border: none;
 }
 
 /* Dropdown items */
 .dropdown-item {
     color: #ffffff !important;
-=======
-.navbar-brand img {
-    height: 1.5rem; /* Ajustar la altura de la imagen si es necesario */
-}
-
-.navbar-toggler {
-    border: none; 
-    background-color: transparent; 
-    padding: 0.5rem;
-    font-size: 0.75rem; 
-}
-
-.navbar-toggler img {
-    height: 30px; 
-    width: auto; 
-}
-
-.navbar-collapse {
-    background-color: #a80000;
-}
-
-.dropdown-menu {
-    background-color: #850000; 
-    border: none; 
-}
-
-.dropdown-item {
-    color: #ffffff;
->>>>>>> Stashed changes
     font-size: 0.8rem;
 }
 
+/* Hover para dropdown items */
 .dropdown-item:hover {
-<<<<<<< Updated upstream
-    background-color: #005ac1 !important; /* un azul más oscuro al hacer hover */
-    color: #ffdd57 !important;
+    background-color: #ffdd57 !important; /* fondo amarillo suave */
+    color: #0769e6 !important; /* texto azul oscuro */
 }
-=======
-    background-color: #a80000;
-    color: #ffbb33; 
-}
->>>>>>> Stashed changes

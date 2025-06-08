@@ -12,7 +12,7 @@ body {
 
 /* Tarjeta de inicio de sesión */
 .login-card {
-    background-color: #8f0000; /* Rojo oscuro corporativo */
+    background-color: #0769e6; /* Azul corporativo */
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -31,44 +31,44 @@ body {
 .login-title {
     font-weight: bold;
     font-size: 1.5rem;
-    color: #ffbb33; /* Amarillo corporativo */
+    color: #ffdd57; /* Amarillo corporativo */
     margin-bottom: 1rem;
 }
 
 /* Botón de inicio de sesión */
 .login-button {
-    background-color: #a80000; /* Rojo corporativo */
-    color: #ffffff;
+    background-color: #ffffff; /* Blanco para contraste */
+    color: #0769e6; /* Azul corporativo */
     border: none;
     font-weight: bold;
     width: 100%;
     padding: 0.6rem;
     border-radius: 4px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .login-button:hover {
-    background-color: #ffbb33; /* Amarillo corporativo para hover */
-    color: #8f0000; /* Rojo oscuro para contraste */
+    background-color: #ffdd57; /* Amarillo corporativo */
+    color: #0769e6; /* Azul corporativo */
 }
 
 /* Inputs */
 .form-control {
     border-radius: 4px;
     margin-bottom: 1rem;
-    border: 1px solid #a80000; /* Borde rojo corporativo */
+    border: 1px solid #0769e6; /* Borde azul */
     padding: 0.5rem;
     color: #ffffff;
-    background-color: #850000; /* Fondo input rojo oscuro */
+    background-color: #045bb2; /* Azul más oscuro */
 }
 
 .form-control::placeholder {
-    color: #ffbb33; /* Placeholder amarillo */
+    color: #ffdd57; /* Placeholder amarillo */
 }
 
 .form-control:focus {
-    border-color: #ffbb33; /* Borde amarillo al enfocar */
-    background-color: #a80000; /* Fondo rojo corporativo al enfocar */
+    border-color: #ffdd57; /* Borde amarillo al enfocar */
+    background-color: #0769e6; /* Fondo azul corporativo */
     color: #ffffff;
     outline: none;
 }

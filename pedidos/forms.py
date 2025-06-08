@@ -5,7 +5,7 @@ from django.forms import modelformset_factory
 class PedidoForm(forms.ModelForm):
     class Meta:
         model = Pedido
-        fields = ['cliente', 'monto_total']
+        fields = ['cliente']
 
 class DetallePedidoForm(forms.ModelForm):
     class Meta:

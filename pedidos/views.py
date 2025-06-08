@@ -40,8 +40,18 @@ def crear_pedido(request):
             if productos_validos == 0:
                 messages.error(request, "Debe agregar al menos un producto con cantidad mayor a 0.")
             else:
-                pedido = pedido_form.save()
+                # Guarda el pedido sin monto_total aún
+                pedido = pedido_form.save(commit=False)
 
+                # Calcula el monto total sumando cantidad * precio unitario
+                monto_total = sum(
+                    cantidad * producto.precio_venta_unitario for producto, cantidad in productos_agrupados.items()
+                )
+
+                pedido.monto_total = monto_total
+                pedido.save()
+
+                # Guarda los detalles con cantidades agrupadas
                 for producto, cantidad_total in productos_agrupados.items():
                     DetallePedido.objects.create(
                         pedido=pedido,
@@ -49,10 +59,10 @@ def crear_pedido(request):
                         cantidad=cantidad_total
                     )
 
+                messages.success(request, f"Pedido creado con monto total ${monto_total:.2f}")
                 return redirect('listar_pedidos')
         else:
             messages.error(request, "Formulario inválido. Por favor revise los campos.")
-
     else:
         pedido_form = PedidoForm()
         detalle_formset = DetallePedidoFormSet(queryset=DetallePedido.objects.none())
@@ -61,6 +71,7 @@ def crear_pedido(request):
         'form': pedido_form,
         'detalle_formset': detalle_formset
     })
+
 
 #El abono se valida a partir del cod_pedido, y luego del monto_total
 
@@ -106,3 +117,10 @@ def listar_pedidos_filtrados(request, estado):
         'pedidos': pedidos,
         'estado': estado
     })
+
+
+def eliminar_pedido(request, cod_pedido):
+    pedido = get_object_or_404(Pedido, cod_pedido=cod_pedido)
+    pedido.delete()
+    messages.success(request, f'El pedido {cod_pedido} fue eliminado correctamente.')
+    return redirect('listar_pedidos')  # Asegúrate que esta URL esté bien definida

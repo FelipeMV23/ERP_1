@@ -21,16 +21,16 @@
     <div class="card-body">
       <form method="POST" id="pedidoForm" novalidate>
         {% csrf_token %}
-            {% if form.non_field_errors %}
-            <div class="alert alert-danger">
-                {{ form.non_field_errors }}
-            </div>
-            {% endif %}
-            {% if detalle_formset.non_form_errors %}
-            <div class="alert alert-danger">
-                {{ detalle_formset.non_form_errors }}
-            </div>
-            {% endif %}
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger">
+            {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+        {% if detalle_formset.non_form_errors %}
+          <div class="alert alert-danger">
+            {{ detalle_formset.non_form_errors }}
+          </div>
+        {% endif %}
         <!-- Cliente -->
         <div class="mb-3">
           <label for="{{ form.cliente.id_for_label }}" class="form-label fw-semibold">Cliente</label>
@@ -42,12 +42,9 @@
 
         <!-- Monto Total -->
         <div class="mb-3">
-          <label for="{{ form.monto_total.id_for_label }}" class="form-label fw-semibold">Monto Total</label>
-          {{ form.monto_total|add_class:"form-control" }}
-          {% if form.monto_total.errors %}
-            <div class="text-danger small">{{ form.monto_total.errors }}</div>
-          {% endif %}
-          <div class="form-text">Ingrese el valor total de venta del pedido.</div>
+          <label class="form-label fw-semibold">Monto Total</label>
+          <input type="text" id="monto_total_display" class="form-control" value="0.00" readonly>
+          <div class="form-text">El monto total se calcula automáticamente.</div>
         </div>
 
         <hr />
@@ -55,45 +52,44 @@
         <!-- Detalles del pedido -->
         <h5 class="mb-3">Productos</h5>
 
- <div id="detalles-container">
-  {{ detalle_formset.management_form }}
-  {% for form in detalle_formset %}
-    <div class="detalle-producto border rounded p-3 mb-3 bg-light position-relative">
-      <div class="mb-3">
-        <label for="{{ form.producto.id_for_label }}" class="form-label fw-semibold">Producto</label>
+        <div id="detalles-container">
+          {{ detalle_formset.management_form }}
+          {% for form in detalle_formset %}
+            <div class="detalle-producto border rounded p-3 mb-3 bg-light position-relative">
+              <div class="mb-3">
+                <label for="{{ form.producto.id_for_label }}" class="form-label fw-semibold">Producto</label>
 
-        {# Aquí agrego data-precio en las opciones - esto es un ejemplo ESTÁTICO, reemplázalo con precios reales #}
-        <select name="{{ form.producto.html_name }}" id="{{ form.producto.id_for_label }}" class="form-select">
-          {% for opcion in form.producto.field.queryset %}
-            <option value="{{ opcion.pk }}" data-precio="{{ opcion.precio|default_if_none:'0' }}"
-              {% if opcion.pk == form.producto.value %}selected{% endif %}>
-              {{ opcion }}
-            </option>
+                <select name="{{ form.producto.html_name }}" id="{{ form.producto.id_for_label }}" class="form-select">
+                  {% for opcion in form.producto.field.queryset %}
+                    <option value="{{ opcion.pk }}" data-precio="{{ opcion.precio|default_if_none:'0' }}"
+                      {% if opcion.pk == form.producto.value %}selected{% endif %}>
+                      {{ opcion }}
+                    </option>
+                  {% endfor %}
+                </select>
+
+                {% if form.producto.errors %}
+                  <div class="text-danger small">{{ form.producto.errors }}</div>
+                {% endif %}
+              </div>
+
+              <div class="mb-3">
+                <label for="{{ form.cantidad.id_for_label }}" class="form-label fw-semibold">Cantidad</label>
+                {{ form.cantidad|add_class:"form-control" }}
+                {% if form.cantidad.errors %}
+                  <div class="text-danger small">{{ form.cantidad.errors }}</div>
+                {% endif %}
+              </div>
+
+              <!-- Total producto -->
+              <p>Total producto: $<span class="total_producto_display"></span></p>
+
+              <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 remove-product-btn" title="Quitar producto">
+                &times;
+              </button>
+            </div>
           {% endfor %}
-        </select>
-
-        {% if form.producto.errors %}
-          <div class="text-danger small">{{ form.producto.errors }}</div>
-        {% endif %}
-      </div>
-
-      <div class="mb-3">
-        <label for="{{ form.cantidad.id_for_label }}" class="form-label fw-semibold">Cantidad</label>
-        {{ form.cantidad|add_class:"form-control" }}
-        {% if form.cantidad.errors %}
-          <div class="text-danger small">{{ form.cantidad.errors }}</div>
-        {% endif %}
-      </div>
-
-      <!-- Aquí mostramos el total producto -->
-      <p>Total producto: $<span class="total_producto_display">0.00</span></p>
-
-      <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 remove-product-btn" title="Quitar producto">
-        &times;
-      </button>
-    </div>
-  {% endfor %}
-</div>
+        </div>
 
         <div class="text-center mb-4">
           <button type="button" id="add-product-btn" class="btn btn-outline-primary">
@@ -104,7 +100,6 @@
         <div class="text-center">
           <button type="submit" class="btn btn-success px-5 fs-5">Crear Pedido</button>
         </div>
-
       </form>
     </div>
   </div>
@@ -114,20 +109,37 @@
   (function() {
     const addBtn = document.getElementById('add-product-btn');
     const detallesContainer = document.getElementById('detalles-container');
-    const totalForms = document.getElementById('id_detalle_formset-TOTAL_FORMS');
+    const totalForms = document.getElementById('id_form-TOTAL_FORMS') || document.getElementById('id_detalle_formset-TOTAL_FORMS');
 
+    // Cambiado para apuntar al input readonly visible que muestra el monto total
+    const montoTotalDisplay = document.getElementById('monto_total_display');
+
+    // Función para actualizar total producto y retornar su valor
     function actualizarTotalProducto(form) {
       const selectProducto = form.querySelector('select[name$="producto"]');
       const cantidadInput = form.querySelector('input[name$="cantidad"]');
       const totalDisplay = form.querySelector('.total_producto_display');
 
-      if (!selectProducto || !cantidadInput || !totalDisplay) return;
+      if (!selectProducto || !cantidadInput || !totalDisplay) return 0;
 
-      const precio = parseFloat(selectProducto.selectedOptions[0].dataset.precio || 0);
+      const precio = parseFloat(selectProducto.selectedOptions[0]?.dataset.precio || 0);
       const cantidad = parseInt(cantidadInput.value) || 0;
       const total = precio * cantidad;
 
       totalDisplay.textContent = total.toFixed(2);
+      return total;
+    }
+
+    // Actualiza todos los totales y muestra la suma en el input visible
+    function actualizarTotalesGenerales() {
+      const forms = detallesContainer.querySelectorAll('.detalle-producto');
+      let suma = 0;
+      forms.forEach(form => {
+        suma += actualizarTotalProducto(form);
+      });
+      if (montoTotalDisplay) {
+        montoTotalDisplay.value = suma.toFixed(2);
+      }
     }
 
     function asignarEventos(form) {
@@ -135,10 +147,16 @@
       const cantidadInput = form.querySelector('input[name$="cantidad"]');
 
       if (selectProducto) {
-        selectProducto.addEventListener('change', () => actualizarTotalProducto(form));
+        selectProducto.addEventListener('change', () => {
+          actualizarTotalProducto(form);
+          actualizarTotalesGenerales();
+        });
       }
       if (cantidadInput) {
-        cantidadInput.addEventListener('input', () => actualizarTotalProducto(form));
+        cantidadInput.addEventListener('input', () => {
+          actualizarTotalProducto(form);
+          actualizarTotalesGenerales();
+        });
       }
 
       // Inicializa el total al cargar
@@ -154,14 +172,15 @@
         });
         asignarEventos(form);
       });
-      totalForms.value = forms.length;
+      if(totalForms) totalForms.value = forms.length;
+      actualizarTotalesGenerales();
     }
 
     addBtn.addEventListener('click', function() {
       const lastForm = detallesContainer.querySelector('.detalle-producto:last-of-type');
       const newForm = lastForm.cloneNode(true);
 
-      // Limpiar valores
+      // Limpiar valores del nuevo formulario
       newForm.querySelectorAll('input, select, textarea').forEach(input => {
         if (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') input.value = '';
         if (input.tagName === 'SELECT') input.selectedIndex = 0;
@@ -183,8 +202,11 @@
       }
     });
 
-    // Inicializar los eventos al cargar
-    document.querySelectorAll('.detalle-producto').forEach(asignarEventos);
+    // Inicializar los eventos al cargar la página
+    document.querySelectorAll('.detalle-producto').forEach(form => {
+      asignarEventos(form);
+    });
+    actualizarTotalesGenerales();
 
   })();
 </script>

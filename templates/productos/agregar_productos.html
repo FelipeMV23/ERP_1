@@ -1,9 +1,42 @@
-<header>{% include 'navegacion/nav.html' %}</header>
-<div class="container mt-4">
-    <h2>Crear Producto</h2>
-    <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="btn btn-primary">Guardar</button>
-    </form>
+{% load widget_tweaks %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Crear Producto</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    {% include 'navegacion/nav.html' %}
+  </header>
+
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Crear Producto</h2>
+    <div class="border p-4 rounded shadow-sm mx-auto" style="max-width: 600px;">
+      <form method="POST">
+        {% csrf_token %}
+        
+        {% for field in form %}
+          <div class="mb-3">
+            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+            {{ field|add_class:"form-control" }}
+            {% if field.help_text %}
+              <div class="form-text">{{ field.help_text }}</div>
+            {% endif %}
+            {% if field.errors %}
+              <div class="text-danger small">{{ field.errors.0 }}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <div class="text-center">
+          <button type="submit" class="btn btn-success px-4">Guardar Producto</button>
+        </div>
+      </form>
+    </div>
   </div>
+</body>
+</html>

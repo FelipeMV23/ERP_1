@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.views.decorators.http import require_POST
 
 @login_required(login_url='sesion_cerrada')
 def navbar(request):
@@ -33,14 +34,11 @@ def iniciar_sesion(request):
     return render(request, 'usuarios/iniciar_sesion.html')
 
 @login_required(login_url='sesion_cerrada')
+
+
+@login_required(login_url='sesion_cerrada')
+@require_POST
 def cerrar_sesion(request):
     logout(request)
     return redirect('iniciar_sesion')
 
-def csrf_error(request, reason=""):
-    referer = request.META.get('HTTP_REFERER', '/')
-    return render(request, 'usuarios/csrf_error.html', {
-        'error_csrf': True,
-        'reason': reason,
-        'referer': referer,
-    })

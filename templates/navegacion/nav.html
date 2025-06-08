@@ -72,11 +72,14 @@
             <div class="d-flex align-items-center ms-3">
                 {% if user.is_authenticated %}
                     <span class="text-white me-2 small">{{ user.first_name }} {{ user.last_name }}</span>
-                    <a href="#" class="text-white" title="Cerrar sesión">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </a>
+                    <form method="POST" action="{% url 'cerrar_sesion' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link text-white p-0 m-0" title="Cerrar sesión" style="border: none; background: none;">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </form>
                 {% else %}
-                    <a href="#" class="btn btn-outline-light btn-sm">Iniciar Sesión</a>
+                    <a href="{% url 'iniciar_sesion' %}" class="btn btn-outline-light btn-sm">Iniciar Sesión</a>
                 {% endif %}
             </div>
         </div>

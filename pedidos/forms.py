@@ -5,7 +5,10 @@ from django.forms import modelformset_factory
 class PedidoForm(forms.ModelForm):
     class Meta:
         model = Pedido
-        fields = ['cliente']
+        fields = ['cliente', 'fecha_pedido']
+        widgets = {
+            'fecha_pedido': forms.DateTimeInput(attrs={'readonly': 'readonly'}),
+        }
 
 class DetallePedidoForm(forms.ModelForm):
     class Meta:

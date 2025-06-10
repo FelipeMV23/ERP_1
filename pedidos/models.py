@@ -3,11 +3,13 @@ from clientes.models import Cliente
 from productos.models import Producto
 from decimal import Decimal
 from django.db.models import Sum
+from django.utils import timezone
 
 class Pedido(models.Model):
     cod_pedido = models.AutoField(primary_key=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     monto_total = models.DecimalField(max_digits=10, decimal_places=2)
+    fecha_pedido = models.DateTimeField(default=timezone.now)
 
     @property
     def saldo_pendiente(self):

@@ -36,11 +36,15 @@
     <table id="tabla-pedidos" class="table table-bordered table-striped">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Cliente</th>
+            <th>ID Pedido</th>
+            <th>Nombre Cliente</th>
+            <th>Razón Social</th>
+            <th>Fecha Pedido</th>
             <th>Monto Total</th>
             <th>Saldo Pendiente</th>
             <th>Acciones</th>
+            <th>Consultas</th>
+            <th>Eliminar</th>
         </tr>
         </thead>
         <tbody>
@@ -48,13 +52,19 @@
             <tr>
                 <td>{{ pedido.cod_pedido }}</td>
                 <td>{{ pedido.cliente.nombre_fantasia }}</td>
+                <td>{{ pedido.cliente.razon_social }}</td>
+                <td>{{ pedido.fecha_pedido|date:"d/m/Y H:i" }}</td>
                 <td>${{ pedido.monto_total }}</td>
                 <td>${{ pedido.saldo_pendiente }}</td>
                 <td>
-                    <a href="{% url 'registrar_entrega' pedido.cod_pedido %}" class="btn btn-sm btn-outline-success">Registrar entrega</a>
-                    <a href="{% url 'añadir_abono' pedido.cod_pedido %}" class="btn btn-success btn-sm mb-1">Abonar</a>
+                    <a href="{% url 'registrar_entrega' pedido.cod_pedido %}" class="btn btn-sm btn-outline-success">Registrar Entrega</a>
+                    <a href="{% url 'añadir_abono' pedido.cod_pedido %}" class="btn btn-success btn-sm mb-1">Registrar Abono</a>
+                </td>
+                <td>
                     <button class="btn btn-primary btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#abonosModal{{ pedido.cod_pedido }}">Ver abonos</button>
                     <button class="btn btn-info btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#productosModal{{ pedido.cod_pedido }}">Ver productos</button>
+                </td>
+                <td>
                     <form action="{% url 'eliminar_pedido' pedido.cod_pedido %}" method="post" class="d-inline" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este pedido?');">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-sm mb-1">Eliminar</button>
